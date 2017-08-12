@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="?android:windowBackground">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/linearLayout2"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true">
+    <TextView
+        android:text="Total Amount"
+        android:layout_width="wrap_content"
+        android:layout_height="?attr/actionBarSize"
+        android:id="@+id/textView8"
+        android:textSize="18sp"
+        android:fontFamily="serif"
+        android:backgroundTint="#D50000"
+        android:background="#D50000"
+        android:gravity="center_vertical"
+        android:layout_weight="1"
+        android:paddingLeft="5dp"
+        android:textAlignment="center" />
+        <TextView
+            android:text="1000 Rs."
+            android:layout_width="wrap_content"
+            android:layout_height="?attr/actionBarSize"
+            android:id="@+id/totalAmount"
+            android:textSize="20sp"
+            android:gravity="center_vertical"
+            android:layout_weight="1"
+            android:textAlignment="center" />
+
+    </LinearLayout>
+
+    <ListView
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/cartLv"
+        android:layout_row="2"
+        android:layout_column="0"
+        android:layout_columnSpan="2"
+        android:layout_above="@+id/button5"></ListView>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="proceedFromCart"
+        android:text="Proceed to Checkout"
+        android:textSize="18sp"
+        android:fontFamily="serif"
+        android:backgroundTint="#56c271"
+        android:id="@+id/button5"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_above="@+id/linearLayout2"
+        android:layout_centerHorizontal="true"
+        android:textAllCaps="false" />
+</RelativeLayout>

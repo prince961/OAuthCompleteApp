@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:columnCount="2"
+    android:rowCount="4"
+    android:layout_marginBottom="5dp"
+    >
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:id="@+id/item_price1"
+        android:text="price"
+        android:layout_row="3"
+        android:layout_column="0"
+        android:textSize="18sp"
+        android:gravity="left"
+        android:layout_gravity="bottom"
+        android:paddingLeft="5dp"
+        android:layout_marginBottom="4dp"
+        android:textColor="?attr/editTextColor"
+         />
+
+    <LinearLayout
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_row="3"
+        android:layout_column="1"
+        android:paddingLeft="10dp"
+        android:paddingTop="2dp"
+        android:orientation="horizontal"
+        android:layout_marginBottom="6dp"
+        android:layout_gravity="right">
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="match_parent"
+            android:id="@+id/reduceBtn"
+            android:src="@drawable/minus_button"
+            android:clickable="true"
+            android:layout_gravity="bottom"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:id="@+id/tvQuantityCart"
+            android:gravity="bottom"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:textSize="18sp"
+            android:textAlignment="gravity"
+            android:layout_gravity=""
+            android:textColor="?attr/editTextColor" />
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="match_parent"
+            android:id="@+id/addBtn"
+            android:src="@drawable/plus_button"
+            android:clickable="true"
+            android:layout_gravity="bottom"/>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="title"
+        android:paddingLeft="5dp"
+        android:textSize="20sp"
+        android:layout_columnSpan="2"
+        android:id="@+id/item_title"
+        android:layout_row="2"
+        android:layout_column="0"
+        android:layout_rowWeight="0.1"
+        android:layout_gravity="left"
+        android:textColor="?attr/editTextColor"
+         />
+
+
+</GridLayout>

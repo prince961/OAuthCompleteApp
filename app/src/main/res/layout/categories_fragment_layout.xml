@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?android:windowBackground"
+    >
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/layout1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_below="@+id/textViewCategories"
+            >
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:src="@drawable/noodles"
+                android:id="@+id/noodleImage"
+                android:layout_alignParentStart="true"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="false"
+                android:cropToPadding="true"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:scaleType="centerCrop"
+                android:onClick="noodle" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:src="@drawable/appetizers"
+                android:id="@+id/imageView3"
+                android:layout_below="@+id/imageView2"
+                android:layout_alignParentStart="true"
+                android:clickable="true"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="false"
+                android:cropToPadding="true"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:scaleType="fitXY"
+                android:onClick="appetizers"/>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:src="@drawable/nonvegmain"
+                android:id="@+id/imageView4"
+                android:layout_below="@+id/imageView3"
+                android:layout_alignParentStart="true"
+                android:clickable="true"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="false"
+                android:cropToPadding="true"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:scaleType="fitXY"
+                android:onClick="nonVegMain"/>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:src="@drawable/paneer"
+                android:id="@+id/imageView2"
+                android:clickable="true"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="false"
+                android:cropToPadding="true"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:scaleType="fitXY"
+                android:layout_below="@+id/imageView1"
+                android:layout_alignParentStart="true"
+                android:onClick="vegMain"/>
+
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:src="@drawable/naan"
+                android:id="@+id/Breads"
+                android:clickable="true"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="false"
+                android:cropToPadding="true"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:scaleType="fitXY"
+                android:layout_below="@+id/imageView1"
+                android:layout_alignParentStart="true"
+                android:onClick="Breads"/>
+        </LinearLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

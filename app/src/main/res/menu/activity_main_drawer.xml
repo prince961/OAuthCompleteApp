@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_menu"
+            android:icon="@drawable/food_menu"
+            android:title="Menu" />
+
+        <item
+            android:id="@+id/nav_cart"
+            android:icon="@drawable/cart3"
+            android:title="Cart" />
+
+        <item
+            android:id="@+id/contact_us"
+            android:icon="@drawable/earth2"
+            android:title="Locate Us" />
+
+
+        <item
+            android:id="@+id/nav_call"
+            android:icon="@drawable/call"
+            android:title="Call Us" />
+
+        <item
+            android:id="@+id/nav_User"
+            android:icon="@drawable/user"
+            android:title="My Account" />
+
+        <item
+            android:id="@+id/nav_Logout"
+            android:icon="@drawable/logout_icon"
+            android:title="Logout" />
+
+    </group>
+
+</menu>
