@@ -33,7 +33,8 @@ public class NoodleFragment extends Fragment {
         ListView listViewNoodle = (ListView) myView.findViewById(R.id.LvNoodle);
         controller = (Controller) getActivity().getApplicationContext();
 
-        noodleProducts = controller.getCategoryProducts("Starters");
+        //noodleProducts = controller.getCategoryProducts("Starters");
+        noodleProducts = controller.getAllProducts();
         ListAdapterImagLess listAdapterImagLess = new ListAdapterImagLess(getActivity().getBaseContext(), R.layout.list_item_imageless, noodleProducts, controller);
         //listViewNoodle.setAdapter(null);
         listViewNoodle.setAdapter(listAdapterImagLess);

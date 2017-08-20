@@ -12,15 +12,16 @@ import java.util.ArrayList;
 
 public class JsonParserProducts {
 
-    public ArrayList<ModelProducts> parse(JSONObject jObject) {
+    public ArrayList<ModelProducts> parse(JSONArray jArray) {
 
-        JSONArray jProducts = null;
+        JSONArray jProducts = jArray;
+        /*
         try {
             jProducts = jObject.getJSONArray("products");
 
         } catch (JSONException e) {
             e.printStackTrace();
-        }
+        } */
 
         return getProducts(jProducts);
     }
@@ -76,7 +77,7 @@ public class JsonParserProducts {
         int id = 0;
 
         try {
-            title = jProduct.getString("title");
+            title = jProduct.getString("name");
             price = jProduct.getInt("price");
             description = jProduct.getString("description");
             id = jProduct.getInt("id");

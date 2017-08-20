@@ -12,6 +12,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.mohit.oauthcompleteapp.services.HMACSha1SignatureService;
+import com.example.mohit.oauthcompleteapp.services.TimestampServiceImpl;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -21,8 +24,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.Objects;
 
 public class LoginActivity extends AppCompatActivity {
@@ -33,6 +38,12 @@ public class LoginActivity extends AppCompatActivity {
     String body;
     UserLocalStore userLocalStore;
     ProgressDialog progressDialog;
+
+    final String BASE_SITE = "dummytesting.touristhelpgroup.com";
+    //final String BASE_URL = "http://"+BASE_SITE+"/wp-json/wc/v2/products";
+    final String COSTUMER_KEY="ck_5103b82a87d860667152b7edfbfa6cac669bf5df";
+    String COSTUMER_SECRET ="cs_0a50837cf82946e35ef7658ca6da0f489ffb5d08";
+    String METHORD = "GET";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,7 +110,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
             try {
-                URL url = new URL("http://dummytesting.touristhelpgroup.com/");
+                URL url = new URL("http://dummytesting.touristhelpgroup.com/wp-json/jwt-auth/v1/token");
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setConnectTimeout(15000);
                 conn.setRequestMethod("POST");
@@ -131,6 +142,7 @@ public class LoginActivity extends AppCompatActivity {
                     }
                     line = sb.toString();           //Saving complete data received in string, you can do it differently
 
+                    Log.i("line",line);
                     JSONObject jsonObject =new JSONObject(line);
                     userEmail = jsonObject.getString("user_email");
                     userLocalStore.storeUserEmail(userEmail);
@@ -216,6 +228,7 @@ public class LoginActivity extends AppCompatActivity {
             super.onPostExecute(aVoid);
         }
     }
+
     private class DownloadUserDetails extends AsyncTask<Void,Void,Void> {
         @Override
         protected Void doInBackground(Void... voids) {
@@ -223,12 +236,53 @@ public class LoginActivity extends AppCompatActivity {
             InputStream inputStream2 = null;
             String data2 = null;
             String userEmail = userLocalStore.getUserEmail();
-            String userUrl = "http://dummytesting.touristhelpgroup.com//wc-api/v3/customers/email/"+userEmail+"?consumer_key=ck_638caaf46271a320075ecee01e89581f91644b98&consumer_secret=cs_0f5fe1845a21396a459fc3961a8255d15a62970b";
+            final String nonce = new TimestampServiceImpl().getNonce();
+            final String timestamp = new TimestampServiceImpl().getTimestampInSeconds();
+            // GENERATED NONCE and TIME STAMP
+            Log.d("nonce",nonce);
+            Log.d("time",timestamp);
+
+            final String BASE_URL = "http://"+BASE_SITE+"/wc-api/v3/customers/email/"+userEmail;
+
+            //final String BASE_URL2 = BASE_URL+userEmail;
+            //Log.i("staticUrl",emailBaseUrl);
+            //Log.i("baseUrl2",BASE_URL2);
+
+            String firstEncodedString = METHORD+"&"+ encodeUrl(BASE_URL);
+            Log.d("firstEmcodedString", firstEncodedString);
+
+            String parameterString="oauth_consumer_key="+COSTUMER_KEY+"&oauth_nonce="+nonce+"&oauth_signature_method=HMAC-SHA1&oauth_timestamp="+timestamp+"&oauth_version=1.0";
+            String secoundEncodedString="&"+encodeUrl(parameterString);
+            Log.d("secoundEncodedString",secoundEncodedString);
+
+            String baseString=firstEncodedString+secoundEncodedString;
+
+            //THE BASE STRING AND COSTUMER_SECRET KEY IS USED FOR GENERATING SIGNATURE
+            Log.d("baseString",baseString);
+
+            String signature=new HMACSha1SignatureService().getSignature(baseString,COSTUMER_SECRET,"");
+            Log.d("SignatureBefore",signature);
+
+            //Signature is encoded before parsing (ONLY FOR THIS EXAMPLE NOT NECESSARY FOR LIB LIKE RETROFIT,OKHTTP)
+            signature=encodeUrl(signature);
+
+            Log.d("SignatureAfter ENCODING",signature);
+
+            final String finalSignature = signature;//BECAUSE I PUT IN SIMPLE THREAD NOT NECESSARY
+            String parseUrl=BASE_URL+"?"+"&oauth_signature_method=HMAC-SHA1&oauth_consumer_key="+COSTUMER_KEY+"&oauth_version=1.0&oauth_timestamp="+timestamp+"&oauth_nonce="+nonce+"&oauth_signature="+ finalSignature;
+            Log.i("finalURL",parseUrl);
+
+
             try {
-                URL url = new URL(userUrl);
-                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-                urlConnection.connect();
-                inputStream2 = urlConnection.getInputStream();
+                URL url = new URL(parseUrl);
+                HttpURLConnection c = (HttpURLConnection) url.openConnection();
+                c.setRequestMethod("GET");
+                c.setRequestProperty("Content-length", "0");
+                c.setUseCaches(false);
+                c.setAllowUserInteraction(false);
+                Log.d("urlioz",""+c.getURL());
+                c.connect();
+                inputStream2 = c.getInputStream();
                 BufferedReader br = new BufferedReader(new InputStreamReader(inputStream2));
                 StringBuffer sb2 = new StringBuffer();
 
@@ -273,5 +327,19 @@ public class LoginActivity extends AppCompatActivity {
 
             progressDialog.hide();
         }
+    }
+
+    public String encodeUrl(String url)
+    {
+        String encodedurl="";
+        try {
+
+            encodedurl = URLEncoder.encode(url,"UTF-8");
+            Log.d("Encodeurl", encodedurl);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        return encodedurl;
     }
 }

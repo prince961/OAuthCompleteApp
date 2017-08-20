@@ -19,6 +19,10 @@ import android.view.MenuItem;
 import android.app.FragmentManager;
 import android.widget.ImageView;
 
+import com.example.mohit.oauthcompleteapp.services.HMACSha1SignatureService;
+import com.example.mohit.oauthcompleteapp.services.TimestampServiceImpl;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -26,8 +30,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
@@ -41,6 +47,7 @@ public class MainActivity extends AppCompatActivity
     final String BASE_URL = "http://"+BASE_SITE+"/wp-json/wc/v2/products";
     final String COSTUMER_KEY="ck_5103b82a87d860667152b7edfbfa6cac669bf5df";
     String COSTUMER_SECRET ="cs_0a50837cf82946e35ef7658ca6da0f489ffb5d08";
+    String METHORD = "GET";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -144,11 +151,42 @@ public class MainActivity extends AppCompatActivity
     private class DownloadProducts extends AsyncTask<String, Void,String> {
         String data = null;
         InputStream iStream = null;
+
+
         @Override
         protected String doInBackground(String... url1) {
-            //we dont do anything with the url1
+            final String nonce = new TimestampServiceImpl().getNonce();
+            final String timestamp = new TimestampServiceImpl().getTimestampInSeconds();
+            // GENERATED NONCE and TIME STAMP
+            Log.d("nonce",nonce);
+            Log.d("time",timestamp);
+
+            String firstEncodedString = METHORD+"&"+ encodeUrl(BASE_URL);
+            Log.d("firstEmcodedString", firstEncodedString);
+
+            String parameterString="oauth_consumer_key="+COSTUMER_KEY+"&oauth_nonce="+nonce+"&oauth_signature_method=HMAC-SHA1&oauth_timestamp="+timestamp+"&oauth_version=1.0";
+            String secoundEncodedString="&"+encodeUrl(parameterString);
+            Log.d("secoundEncodedString",secoundEncodedString);
+
+            String baseString=firstEncodedString+secoundEncodedString;
+
+            //THE BASE STRING AND COSTUMER_SECRET KEY IS USED FOR GENERATING SIGNATURE
+            Log.d("baseString",baseString);
+
+            String signature=new HMACSha1SignatureService().getSignature(baseString,COSTUMER_SECRET,"");
+            Log.d("SignatureBefore",signature);
+
+            //Signature is encoded before parsing (ONLY FOR THIS EXAMPLE NOT NECESSARY FOR LIB LIKE RETROFIT,OKHTTP)
+            signature=encodeUrl(signature);
+
+            Log.d("SignatureAfter ENCODING",signature);
+
+            final String finalSignature = signature;//BECAUSE I PUT IN SIMPLE THREAD NOT NECESSARY
+            String parseUrl=BASE_URL+"?"+"&oauth_signature_method=HMAC-SHA1&oauth_consumer_key="+COSTUMER_KEY+"&oauth_version=1.0&oauth_timestamp="+timestamp+"&oauth_nonce="+nonce+"&oauth_signature="+ finalSignature;
+            //Log.i("finalURL",parseUrl);
+
             try {
-                URL url = new URL("https://www.jersershor.com/wc-api/v3/products?consumer_key=ck_638caaf46271a320075ecee01e89581f91644b98&consumer_secret=cs_0f5fe1845a21396a459fc3961a8255d15a62970b");
+                URL url = new URL(parseUrl);
                 //URL url = new URL(strUrl);
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.connect();
@@ -175,20 +213,26 @@ public class MainActivity extends AppCompatActivity
                 }
             }
 
+            Log.i("data",data);
             return data;
         }
 
         @Override
         protected void onPostExecute(String s) {
+            Log.i("s",s);
             super.onPostExecute(s);
             JSONObject jObject = null;
+            JSONArray jArray = null;
             try {
-                jObject = new JSONObject(s);
+                jArray = new JSONArray(s);
+                jObject =(JSONObject)  jArray.get(0);
+                Log.i("jobject",jObject.toString());
             } catch (JSONException e) {
+                Log.i("s",s);
                 e.printStackTrace();
             }
             JsonParserProducts jsonParserProducts = new JsonParserProducts();
-            ArrayList<ModelProducts> AllProducts = jsonParserProducts.parse(jObject);
+            ArrayList<ModelProducts> AllProducts = jsonParserProducts.parse(jArray);
             //ModelProducts modelProducts = AllProducts.get(0);
             //modelProducts.getCategories()
             controller.addAllProducts(AllProducts);
@@ -198,6 +242,21 @@ public class MainActivity extends AppCompatActivity
             //downloadUserDetails.execute();
 
         }
+    }
+
+
+    public String encodeUrl(String url)
+    {
+        String encodedurl="";
+        try {
+
+            encodedurl = URLEncoder.encode(url,"UTF-8");
+            Log.d("Encodeurl", encodedurl);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        return encodedurl;
     }
 
     @Override
