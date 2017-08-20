@@ -64,7 +64,12 @@ public class JsonParserProducts {
         String[] categoriesArray = new String[categories.length()];
         for (int j = 0; j < categories.length(); j++){
             try {
-                categoriesArray[j] = categories.getString(j);
+                //categoriesArray[j] = categories.getString(j);
+                JSONObject categoryJsonObject = categories.getJSONObject(j);
+                String category = categoryJsonObject.getString("name");
+                categoriesArray[j]= category;
+
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }

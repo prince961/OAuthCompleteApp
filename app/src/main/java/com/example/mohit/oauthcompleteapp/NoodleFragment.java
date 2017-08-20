@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Created by princ on 25-11-2016.
@@ -33,13 +34,16 @@ public class NoodleFragment extends Fragment {
         ListView listViewNoodle = (ListView) myView.findViewById(R.id.LvNoodle);
         controller = (Controller) getActivity().getApplicationContext();
 
-        //noodleProducts = controller.getCategoryProducts("Starters");
-        noodleProducts = controller.getAllProducts();
+        noodleProducts = controller.getCategoryProducts("Starters");
+        //noodleProducts = controller.getAllProducts();
+        ModelProducts modelProducts = noodleProducts.get(0);
+        String category = Arrays.toString(modelProducts.getCategories());
         ListAdapterImagLess listAdapterImagLess = new ListAdapterImagLess(getActivity().getBaseContext(), R.layout.list_item_imageless, noodleProducts, controller);
         //listViewNoodle.setAdapter(null);
         listViewNoodle.setAdapter(listAdapterImagLess);
         Log.i("listViewCount", Integer.toString(noodleProducts.size()));
         Log.i("TotalProducts", Integer.toString(controller.getAllProducts().size()));
+        Log.i("categoryyy",category);
         return myView;
 
 
