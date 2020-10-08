@@ -54,7 +54,7 @@ public class NonVegMainCourseFragment extends Fragment {
 
   //n ftxg = fragmentManager.beginTransaction().replace( R.id.fragment, new MyFragment() ).addToBackStack( "tag" ).commit();
 
-
+    //test
 
 
 
