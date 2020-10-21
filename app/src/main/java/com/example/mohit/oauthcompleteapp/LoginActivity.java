@@ -39,10 +39,11 @@ public class LoginActivity extends AppCompatActivity {
     UserLocalStore userLocalStore;
     ProgressDialog progressDialog;
 
-    final String BASE_SITE = "dummytesting.touristhelpgroup.com";
+    final String BASE_SITE = "www.digyfi.in";
     //final String BASE_URL = "http://"+BASE_SITE+"/wp-json/wc/v2/products";
-    final String COSTUMER_KEY="ck_5103b82a87d860667152b7edfbfa6cac669bf5df";
-    String COSTUMER_SECRET ="cs_0a50837cf82946e35ef7658ca6da0f489ffb5d08";
+    final String COSTUMER_KEY="ck_f247275c612feeaeea7a13d2d2dd817bf6557586";
+    String COSTUMER_SECRET ="cs_cb384cbe4c2b3566ae802786aa1e9798851ac27e";
+    String websiteIP = "65.0.93.89";
     String METHORD = "GET";
 
     @Override
@@ -110,7 +111,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
             try {
-                URL url = new URL("http://dummytesting.touristhelpgroup.com/wp-json/jwt-auth/v1/token");
+                URL url = new URL("http://"+websiteIP+"/wp-json/jwt-auth/v1/token");
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setConnectTimeout(15000);
                 conn.setRequestMethod("POST");

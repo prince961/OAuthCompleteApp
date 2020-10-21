@@ -1,7 +1,7 @@
 package com.example.mohit.oauthcompleteapp;
 
 /**
- * Created by princ on 16-01-2017.
+ * Created by prince on 16-01-2017.
  */
 
 import android.app.ProgressDialog;
@@ -32,6 +32,8 @@ public class Register extends AppCompatActivity {
     Button bRegister;
     ProgressDialog progressDialog;
     String UserPhone, userPassword;
+    String websiteIP = "65.0.93.89";
+    String website = "www.digyfi.in";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,9 +108,11 @@ public class Register extends AppCompatActivity {
 
         new StoreUserDataAsyncTask().execute();}
 
+
         else {
             Toast.makeText(this, "Please Fill all The Fields Correctly", Toast.LENGTH_LONG).show();
         }
+        Log.i("body",body);
     }
 
     private Boolean checkTheFields(String userName, String userAddress, String userEmail, String userPhone, String userPassword) {
@@ -138,7 +142,7 @@ public class Register extends AppCompatActivity {
 
 
             try {
-                URL url = new URL("https://www.jersershor.com/wc-api/v3/customers?consumer_key=ck_638caaf46271a320075ecee01e89581f91644b98&consumer_secret=cs_0f5fe1845a21396a459fc3961a8255d15a62970b");
+                URL url = new URL("https://"+website+"/wc-api/v3/customers?consumer_key=ck_f247275c612feeaeea7a13d2d2dd817bf6557586&consumer_secret=cs_cb384cbe4c2b3566ae802786aa1e9798851ac27e");
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setConnectTimeout(15000);
                 conn.setRequestMethod("POST");
@@ -212,6 +216,7 @@ public class Register extends AppCompatActivity {
 
             } catch (Exception e) {
                 e.printStackTrace();
+                errorMessage = "Please check your internet connection";
             } finally {
                 if (reader != null) {
                     try {

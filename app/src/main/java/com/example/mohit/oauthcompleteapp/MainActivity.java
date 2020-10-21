@@ -43,10 +43,10 @@ public class MainActivity extends AppCompatActivity
     FragmentManager fragmentManager = getFragmentManager();
     UserLocalStore userLocalStore ;
     private Controller controller = null;
-    final String BASE_SITE = "dummytesting.touristhelpgroup.com";
-    final String BASE_URL = "http://"+BASE_SITE+"/wp-json/wc/v2/products";
-    final String COSTUMER_KEY="ck_5103b82a87d860667152b7edfbfa6cac669bf5df";
-    String COSTUMER_SECRET ="cs_0a50837cf82946e35ef7658ca6da0f489ffb5d08";
+    final String BASE_SITE = "www.digyfi.in";
+    final String BASE_URL = "https://"+BASE_SITE+"/wp-json/wc/v2/products?";
+    final String COSTUMER_KEY="ck_f247275c612feeaeea7a13d2d2dd817bf6557586";
+    String COSTUMER_SECRET ="cs_cb384cbe4c2b3566ae802786aa1e9798851ac27e";
     String METHORD = "GET";
 
     @Override
@@ -155,6 +155,7 @@ public class MainActivity extends AppCompatActivity
 
         @Override
         protected String doInBackground(String... url1) {
+            /*
             final String nonce = new TimestampServiceImpl().getNonce();
             final String timestamp = new TimestampServiceImpl().getTimestampInSeconds();
             // GENERATED NONCE and TIME STAMP
@@ -185,12 +186,21 @@ public class MainActivity extends AppCompatActivity
             String parseUrl=BASE_URL+"?"+"&oauth_signature_method=HMAC-SHA1&oauth_consumer_key="+COSTUMER_KEY+"&oauth_version=1.0&oauth_timestamp="+timestamp+"&oauth_nonce="+nonce+"&oauth_signature="+ finalSignature;
             //Log.i("finalURL",parseUrl);
 
+             */
+
+            String parseUrl = BASE_URL+"consumer_key="+COSTUMER_KEY+"&consumer_secret="+COSTUMER_SECRET;
+
             try {
                 URL url = new URL(parseUrl);
+                Log.i("URL", url.toString());
                 //URL url = new URL(strUrl);
-                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-                urlConnection.connect();
-                iStream = urlConnection.getInputStream();
+                HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                conn.setConnectTimeout(5000);
+                conn.setRequestMethod("GET");
+                conn.setDoOutput(true);
+                conn.setRequestProperty("Content-Type", "application/json");
+                conn.connect();
+                iStream = conn.getInputStream();
                 BufferedReader br = new BufferedReader(new InputStreamReader(iStream));
                 StringBuffer sb = new StringBuffer();
 

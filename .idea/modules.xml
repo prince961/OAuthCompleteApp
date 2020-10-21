@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/OAuthCompleteApp.iml" filepath="$PROJECT_DIR$/OAuthCompleteApp.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/OAuthCompleteApp.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/OAuthCompleteApp.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/StudioProjects.OAuthCompleteApp.iml" filepath="$PROJECT_DIR$/.idea/modules/StudioProjects.OAuthCompleteApp.iml" />
     </modules>
   </component>
 </project>
