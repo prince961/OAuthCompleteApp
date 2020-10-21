@@ -244,7 +244,7 @@ public class MainActivity extends AppCompatActivity
             JsonParserProducts jsonParserProducts = new JsonParserProducts();
             ArrayList<ModelProducts> AllProducts = jsonParserProducts.parse(jArray);
             //ModelProducts modelProducts = AllProducts.get(0);
-            //modelProducts.getCategories()
+            //modelProducts.getCategories()1
             controller.addAllProducts(AllProducts);
             controller.setAllProductsAdded(true);
             Log.i("main_act_allproducts",Boolean.toString(controller.isAllProductsAdded()));
